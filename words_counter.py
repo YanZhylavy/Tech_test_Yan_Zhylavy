@@ -1,3 +1,5 @@
+import re
+
 class WordCounter:
     '''
     Please pass the name of the file from which you want to read the text for word counting 
@@ -13,10 +15,10 @@ class WordCounter:
             with open(filename, 'r') as f:
                 all_words_list = f.read().split()
                 for word in all_words_list:
-                    word = word.lower()
-                    if word not in self._counter:
+                    word = re.sub(r'^[^\w]+|[^\w]+$', '', word.lower())
+                    if word and word not in self._counter:
                         self._counter[word] = 1
-                    else:
+                    elif word:
                         self._counter[word] += 1 
         except FileNotFoundError:
             print(('You have to pass correct filename to WordCounter constructor. ' \
@@ -39,4 +41,3 @@ class WordCounter:
             lines = '\n'.join(lines)
             f.write(lines)
         
-                            
